@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASU Alumni China — Objects of Belonging</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0f0f0f;
+      --white:   #fafafa;
+      --warm:    #f5f0eb;
+      --gray:    #6b7280;
+      --accent:  #7c3aed;
+      --maroon:  #8c1d40;
+      --gold:    #ffc627;
+      --font-body: 'Inter', sans-serif;
+      --font-display: 'Playfair Display', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--warm);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── Fixed nav ── */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(245, 240, 235, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .back-link {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .nav-rule { flex: 1; height: 1px; background: rgba(0,0,0,0.08); }
+    .nav-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #bbb;
+      text-transform: uppercase;
+    }
+
+    /* ── Hero header ── */
+    .hero {
+      padding: 8rem 2rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--maroon);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      color: var(--black);
+    }
+    .hero p {
+      font-size: 1.02rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 560px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat span:first-child {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--maroon);
+      font-family: var(--font-display);
+    }
+    .hero-stat span:last-child {
+      font-size: 0.75rem;
+      color: var(--gray);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Product grid ── */
+    .grid-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    /* Some cards span 2 columns for variety */
+    .product-card.wide { grid-column: span 2; }
+    .product-card.tall { grid-row: span 2; }
+
+    .product-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 280px;
+      object-fit: contain;
+      display: block;
+      padding: 20px;
+      background: #fff;
+      transition: transform 0.45s ease;
+    }
+    .product-card.wide .card-img { height: 300px; }
+    .product-card.tall .card-img { height: 100%; min-height: 400px; }
+    .product-card:hover .card-img { transform: scale(1.04); }
+
+    /* Lifestyle photo cards (no padding, fill) */
+    .product-card.lifestyle .card-img {
+      object-fit: cover;
+      padding: 0;
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+    }
+    .product-card:hover .card-overlay { opacity: 1; }
+
+    .card-info {
+      color: #fff;
+      transform: translateY(6px);
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover .card-info { transform: translateY(0); }
+
+    .card-tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 0.25rem;
+    }
+    .card-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .card-hint {
+      font-size: 0.7rem;
+      opacity: 0.6;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lb-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 15, 15, 0.88);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+    .lb-panel {
+      position: relative;
+      z-index: 2;
+      background: var(--warm);
+      border-radius: 20px;
+      max-width: 860px;
+      width: calc(100% - 3rem);
+      max-height: 90vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .lightbox.open .lb-panel {
+      transform: scale(1) translateY(0);
+    }
+
+    .lb-img-wrap {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 420px;
+      padding: 2rem;
+    }
+    .lb-img {
+      max-width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .lb-content {
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .lb-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--maroon);
+      margin-bottom: 0.6rem;
+    }
+    .lb-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .lb-desc {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.75;
+      flex: 1;
+    }
+
+    .lb-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .lb-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: background 0.2s, border-color 0.2s;
+      color: var(--black);
+    }
+    .lb-btn:hover { background: var(--black); color: #fff; border-color: var(--black); }
+    .lb-counter {
+      font-size: 0.78rem;
+      color: var(--gray);
+      letter-spacing: 0.06em;
+    }
+    .lb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--black);
+      transition: background 0.2s;
+      z-index: 3;
+    }
+    .lb-close:hover { background: rgba(0,0,0,0.16); }
+
+    @media (max-width: 700px) {
+      .lb-panel { grid-template-columns: 1fr; }
+      .lb-img-wrap { min-height: 260px; }
+      .lb-img { max-height: 240px; }
+      .lb-content { padding: 1.5rem; }
+      .product-grid { grid-template-columns: 1fr 1fr; }
+      .product-card.wide { grid-column: span 2; }
+      .product-card.tall { grid-row: span 1; }
+    }
+    @media (max-width: 480px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .product-card.wide { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="top-nav">
+    <a href="index.html#design" class="back-link">← Back to Portfolio</a>
+    <div class="nav-rule"></div>
+    <span class="nav-label">Design & Production · Case 01</span>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="hero-tag">Brand Merchandise · Physical Design · Cross-cultural</span>
+    <h1>ASU Alumni China —<br/>Objects of Belonging</h1>
+    <p>Officially licensed merchandise designed for the Chinese alumni community — objects that carry a university's identity across 10,000 miles. Each product was a brief in itself: how do you make something feel both distinctly American and deeply Chinese?</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span>8</span>
+        <span>Product Lines</span>
+      </div>
+      <div class="hero-stat">
+        <span>100%</span>
+        <span>Officially Licensed</span>
+      </div>
+      <div class="hero-stat">
+        <span>Concept</span>
+        <span>→ Production</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Product Grid -->
+  <section class="grid-section">
+    <div class="product-grid" id="productGrid">
+
+      <!-- 1: Tumblers -->
+      <div class="product-card" data-index="0">
+        <img class="card-img" src="assets/images/design/swags-new/product-03.png" alt="Sun Devils Tumblers" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Drinkware</div>
+            <div class="card-name">Sun Devils Tumblers</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2: Acrylic Light - tall -->
+      <div class="product-card tall" data-index="1">
+        <img class="card-img" src="assets/images/design/swags-new/product-06-light.png" alt="A山回响 Acrylic LED Light" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Podcast Merch</div>
+            <div class="card-name">A山回响 Acrylic Light</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3: Coasters -->
+      <div class="product-card" data-index="2">
+        <img class="card-img" src="assets/images/design/swags-new/product-02.png" alt="ASU Alumni Coasters" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Drinkware · Official</div>
+            <div class="card-name">ASU Alumni Coasters</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4: Tote Bag - wide -->
+      <div class="product-card wide" data-index="3">
+        <img class="card-img" src="assets/images/design/swags-new/product-04.png" alt="Sun Devils Tote Bag" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Apparel</div>
+            <div class="card-name">Sun Devils Tote Bag</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5: T-Shirt -->
+      <div class="product-card" data-index="4">
+        <img class="card-img" src="assets/images/design/swags-new/product-07-tshirt.png" alt="Sun Devils T-Shirt" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Apparel</div>
+            <div class="card-name">Sun Devils T-Shirt</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6: Travel Pillow -->
+      <div class="product-card" data-index="5">
+        <img class="card-img" src="assets/images/design/swags-new/product-01.png" alt="Frosty Travel Pillow" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Travel</div>
+            <div class="card-name">Frosty Travel Pillow</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7: Blanket - wide -->
+      <div class="product-card wide" data-index="6">
+        <img class="card-img" src="assets/images/design/swags-new/product-08-blanket.png" alt="ASU Alumni Sherpa Blanket" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Home</div>
+            <div class="card-name">ASU Alumni Sherpa Blanket</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8: Vinyl Record -->
+      <div class="product-card" data-index="7">
+        <img class="card-img" src="assets/images/design/swags-new/product-05.png" alt="Alumni Vinyl Record" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Collectible</div>
+            <div class="card-name">Alumni Vinyl Record</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9: Acrylic light real photo -->
+      <div class="product-card lifestyle" data-index="8">
+        <img class="card-img" src="assets/images/design/asu-swags/swag-06.jpeg" alt="A山回响 light — real photo" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Real Product</div>
+            <div class="card-name">A山回响 Light · In Use</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10: Tote + Tee lifestyle -->
+      <div class="product-card lifestyle wide" data-index="9">
+        <img class="card-img" src="assets/images/design/asu-swags/swag-08.png" alt="Tote + T-Shirt lifestyle" />
+        <div class="card-overlay">
+          <div class="card-info">
+            <div class="card-tag">Lifestyle</div>
+            <div class="card-name">Tote × Tee — Collection</div>
+            <div class="card-hint">Tap to view →</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <div class="lb-backdrop" id="lbBackdrop"></div>
+    <div class="lb-panel">
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+      <div class="lb-img-wrap">
+        <img class="lb-img" id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
+      </div>
+      <div class="lb-content">
+        <div>
+          <div class="lb-tag" id="lbTag"></div>
+          <h2 class="lb-title" id="lbTitle"></h2>
+          <p class="lb-desc" id="lbDesc"></p>
+        </div>
+        <div class="lb-nav">
+          <button class="lb-btn" id="lbPrev" aria-label="Previous">←</button>
+          <button class="lb-btn" id="lbNext" aria-label="Next">→</button>
+          <span class="lb-counter" id="lbCounter"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const products = [
+    {
+      img: 'assets/images/design/swags-new/product-03.png',
+      tag: 'Drinkware',
+      name: 'Sun Devils Tumblers',
+      desc: 'A matching pair of stainless steel tumblers in ASU maroon and black — each branded with the Sun Devils cactus illustration. Designed as a gift set for alumni events and community activations.'
+    },
+    {
+      img: 'assets/images/design/swags-new/product-06-light.png',
+      tag: 'Podcast Merch',
+      name: 'A山回响 Acrylic LED Light',
+      desc: 'Custom-designed acrylic light box for the A山回响 alumni podcast. Branded with the podcast\'s maroon-and-gold visual identity — a desk piece that alumni could take home from community events. One of the most-requested items.'
+    },
+    {
+      img: 'assets/images/design/swags-new/product-02.png',
+      tag: 'Drinkware · Officially Licensed',
+      name: 'ASU Alumni Coasters · 4 Pack',
+      desc: 'Officially licensed 4-pack coasters featuring a custom illustration of global city skylines — Phoenix, Shanghai, Beijing, and beyond — unified under the ASU Alumni China identity. Go Devils, wherever you are.'
+    },
+    {
+      img: 'assets/images/design/swags-new/product-04.png',
+      tag: 'Apparel',
+      name: 'Sun Devils Tote Bag',
+      desc: 'A black canvas tote featuring the Sun Devils cactus-at-sunset graphic — designed to be something alumni would actually carry. Distributed at alumni events in Beijing and Shanghai.'
+    },
+    {
+      img: 'assets/images/design/swags-new/product-07-tshirt.png',
+      tag: 'Apparel',
+      name: 'Sun Devils T-Shirt',
+      desc: 'A clean white pocket tee with the Sun Devils palm tree graphic — understated enough for everyday wear, identifiable enough to spark a conversation. Designed to feel like something you\'d buy, not something you\'d receive.'
+    },
+    {
+      img: 'assets/images/design/swags-new/product-01.png',
+      tag: 'Travel',
+      name: 'Frosty Travel Pillow',
+      desc: 'A sherpa travel neck pillow with the Sun Devils badge — soft, practical, and unmistakably ASU. Alumni who travel between China and the US found this particularly meaningful: something to carry on the journey home.'
+    },
+    {
+      img: 'assets/images/design/swags-new/product-08-blanket.png',
+      tag: 'Home',
+      name: 'ASU Alumni Sherpa Blanket',
+      desc: 'A maroon-trimmed sherpa blanket tied with an ASU Alumni ribbon — warm, giftable, and distinctly branded. Designed as a premium gift for milestone alumni moments: graduations, reunions, and homecomings.'
+    },
+    {
+      img: 'assets/images/design/swags-new/product-05.png',
+      tag: 'Collectible',
+      name: 'Alumni Vinyl Record',
+      desc: 'A collectible vinyl record featuring original artwork tied to the A山回响 podcast — maroon sleeve with hand-illustrated campus scenes on the center label. A limited-edition piece for alumni who attended the podcast launch event.'
+    },
+    {
+      img: 'assets/images/design/asu-swags/swag-06.jpeg',
+      tag: 'Real Product · Podcast Merch',
+      name: 'A山回响 Light — In the Wild',
+      desc: 'The acrylic light in its real-world context — glowing on a desk, carrying the podcast brand into alumni homes long after the event ends. Merchandise as a memory, not just a giveaway.'
+    },
+    {
+      img: 'assets/images/design/asu-swags/swag-08.png',
+      tag: 'Lifestyle · Apparel Collection',
+      name: 'Tote × Tee — The Collection',
+      desc: 'The tote and tee together — the Sun Devils streetwear collection. Designed to be cohesive without being a set, each piece works on its own or as a pair. Alumni events in China have their own dress code now.'
+    }
+  ];
+
+  let currentIndex = 0;
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lbImg');
+  const lbTag    = document.getElementById('lbTag');
+  const lbTitle  = document.getElementById('lbTitle');
+  const lbDesc   = document.getElementById('lbDesc');
+  const lbCounter = document.getElementById('lbCounter');
+
+  function openLightbox(index) {
+    currentIndex = index;
+    updateLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightbox() {
+    const p = products[currentIndex];
+    lbImg.src = p.img;
+    lbImg.alt = p.name;
+    lbTag.textContent = p.tag;
+    lbTitle.textContent = p.name;
+    lbDesc.textContent = p.desc;
+    lbCounter.textContent = `${currentIndex + 1} of ${products.length}`;
+  }
+
+  function prevProduct() {
+    currentIndex = (currentIndex - 1 + products.length) % products.length;
+    updateLightbox();
+  }
+
+  function nextProduct() {
+    currentIndex = (currentIndex + 1) % products.length;
+    updateLightbox();
+  }
+
+  // Attach card click events
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', () => {
+      openLightbox(parseInt(card.dataset.index));
+    });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbBackdrop').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', prevProduct);
+  document.getElementById('lbNext').addEventListener('click', nextProduct);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevProduct();
+    if (e.key === 'ArrowRight') nextProduct();
+  });
+</script>
+
+</body>
+</html>

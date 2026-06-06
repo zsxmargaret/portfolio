@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module Preview — ASU Swag</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0f0f0f;
+      --white: #fafafa;
+      --gray: #6b7280;
+      --accent: #7c3aed;
+      --accent-light: #ede9fe;
+      --cream: #f2ede5;      /* unified product stage */
+      --font-body: 'Inter', sans-serif;
+      --font-display: 'Playfair Display', serif;
+    }
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+      padding: 4rem 2rem;
+    }
+
+    .module { max-width: 1060px; margin: 0 auto; }
+
+    /* Case label */
+    .case-label {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+    .case-num {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .case-rule { flex: 1; height: 1px; background: rgba(0,0,0,0.1); }
+
+    /* ── Product grid ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 2.5rem;
+    }
+
+    .product-item { display: flex; flex-direction: column; }
+
+    /* All frames share the same cream stage */
+    .product-frame {
+      background: var(--cream);
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      position: relative;
+      cursor: zoom-in;
+    }
+
+    .product-frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.45s ease;
+    }
+
+    /* contain: product sits in cream bg with breathing room */
+    .contain img {
+      object-fit: contain;
+      padding: 8%;
+    }
+
+    /* cover: fills the frame, position adjusted per product */
+    .cover img { object-fit: cover; }
+
+    .frame-cup       img { object-position: center 28%; }
+    .frame-tote      img { object-position: center 40%; }
+    .frame-tshirt    img { object-position: center 50%; }
+    .frame-blanket   img { object-position: center 42%; }
+    .frame-coaster   img { object-position: center 60%; }
+    .frame-light     img { object-position: center 38%; }
+
+    .product-frame:hover img { transform: scale(1.06); }
+
+    /* Caption */
+    .product-caption { padding: 0.75rem 0.1rem 0; }
+    .product-name {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 0.15rem;
+    }
+    .product-note {
+      font-size: 0.72rem;
+      color: var(--gray);
+      line-height: 1.4;
+    }
+
+    /* ── Case info ── */
+    .case-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      padding-top: 0.25rem;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      margin-top: 0.5rem;
+    }
+
+    .case-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin: 1.5rem 0 0.5rem;
+    }
+    .case-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .case-desc {
+      font-size: 0.92rem;
+      color: var(--gray);
+      line-height: 1.8;
+      margin: 1.5rem 0 1.25rem;
+    }
+    .metrics { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .metrics span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+    }
+  </style>
+</head>
+<body>
+<div class="module">
+
+  <div class="case-label">
+    <span class="case-num">Case 01</span>
+    <div class="case-rule"></div>
+  </div>
+
+  <div class="product-grid">
+
+    <!-- Tumbler: clean cream bg photo → contain -->
+    <div class="product-item">
+      <div class="product-frame contain frame-cup">
+        <img src="assets/images/design/asu-swags/cup.jpeg" alt="Sun Devils tumblers" />
+      </div>
+      <div class="product-caption">
+        <p class="product-name">Tumbler</p>
+        <p class="product-note">Desert scene · 2 colorways</p>
+      </div>
+    </div>
+
+    <!-- Tote bag -->
+    <div class="product-item">
+      <div class="product-frame contain frame-tote">
+        <img src="assets/images/design/asu-swags/tote.png" alt="Sun Devils tote bag" />
+      </div>
+      <div class="product-caption">
+        <p class="product-name">Tote Bag</p>
+        <p class="product-note">Palm sunset graphic · canvas</p>
+      </div>
+    </div>
+
+    <!-- T-shirt -->
+    <div class="product-item">
+      <div class="product-frame contain frame-tshirt">
+        <img src="assets/images/design/asu-swags/tshirt.png" alt="Sun Devils T-shirt" />
+      </div>
+      <div class="product-caption">
+        <p class="product-name">T-Shirt</p>
+        <p class="product-note">Pocket graphic · white</p>
+      </div>
+    </div>
+
+    <!-- Blanket: cover, crop to show product + logo -->
+    <div class="product-item">
+      <div class="product-frame cover frame-blanket">
+        <img src="assets/images/design/asu-swags/swag-02.jpg" alt="ASU Alumni blanket" />
+      </div>
+      <div class="product-caption">
+        <p class="product-name">Sherpa Blanket</p>
+        <p class="product-note">中国校友 · maroon ribbon</p>
+      </div>
+    </div>
+
+    <!-- Acrylic light: cover, center on the artwork -->
+    <div class="product-item">
+      <div class="product-frame cover frame-light">
+        <img src="assets/images/design/asu-swags/swag-06.jpeg" alt="A山回响 acrylic light" />
+      </div>
+      <div class="product-caption">
+        <p class="product-name">Acrylic Light</p>
+        <p class="product-note">A山回响 artwork · LED</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Case info -->
+  <div class="case-info">
+    <div>
+      <span class="case-tag">Brand Merchandise · Physical Design · Cross-cultural</span>
+      <h2 class="case-title">ASU Alumni China —<br/>Objects of Belonging</h2>
+    </div>
+    <div>
+      <p class="case-desc">Designed a suite of officially licensed ASU merchandise for the Chinese alumni community — tumblers, tote bags, blankets, and keepsakes that carry a university's identity across 10,000 miles. Each object was a brief in itself: how do you make something feel both distinctly American and deeply Chinese?</p>
+      <div class="metrics">
+        <span>Officially Licensed</span>
+        <span>5 Product Lines</span>
+        <span>Concept → Production</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

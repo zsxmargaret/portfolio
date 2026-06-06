@@ -1,0 +1,144 @@
+/* A面人生 Alumni Portrait Series — Styles */
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+.ap-hero {
+  background: linear-gradient(160deg, #1a0a00 0%, #3a1a00 50%, #8b1a1a 100%);
+}
+
+/* ── Numbers Bar ──────────────────────────────────────────────── */
+.ap-numbers-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #111;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.ap-number-item {
+  padding: 2.5rem;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.ap-number-item:last-child { border-right: none; }
+.ap-number-val {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  color: #FFC627;
+  line-height: 1;
+}
+.ap-number-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e07070;
+  margin-top: 0.2rem;
+}
+.ap-number-note {
+  font-size: 0.72rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* ── Gallery Section ──────────────────────────────────────────── */
+.ap-gallery-section { background: #0a0a0a !important; }
+
+.ap-portrait-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  margin-top: 3rem;
+}
+.ap-portrait-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.ap-portrait-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+}
+.ap-portrait-item:hover img {
+  transform: scale(1.04);
+}
+.ap-portrait-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 1rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.ap-portrait-item:hover .ap-portrait-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ap-portrait-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+}
+.ap-portrait-school {
+  font-size: 0.7rem;
+  color: #FFC627;
+  line-height: 1.4;
+}
+.ap-portrait-quote {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+
+/* ── Design System Section ────────────────────────────────────── */
+.ap-system-section { background: #faf9f7 !important; }
+
+.ap-system-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+.ap-system-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.ap-system-swatch {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+}
+.ap-system-swatch--border {
+  border: 1px solid #ddd;
+}
+.ap-system-item h4 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+.ap-system-item p {
+  font-size: 0.82rem;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ap-numbers-bar { grid-template-columns: repeat(2, 1fr); }
+  .ap-portrait-grid { grid-template-columns: repeat(3, 1fr); }
+  .ap-system-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .ap-portrait-grid { grid-template-columns: repeat(2, 1fr); }
+  .ap-system-grid { grid-template-columns: 1fr 1fr; }
+}
